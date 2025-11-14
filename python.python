@@ -2,13 +2,10 @@ def greedy_vertex_cover(edges):
     cover = set()
     remaining_edges = edges.copy()
     
-    while remaining_edges:
-        # Берём первое непокрытое ребро
-        u, v = remaining_edges[0]
-        # Добавляем обе вершины в покрытие
+    while remaining_edges: 
+        u, v = remaining_edges[0] 
         cover.add(u)
-        cover.add(v)
-        # Удаляем все рёбра, инцидентные u или v
+        cover.add(v) 
         remaining_edges = [
             (a, b) for a, b in remaining_edges
             if a not in cover and b not in cover
