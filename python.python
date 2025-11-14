@@ -1,32 +1,50 @@
 def greedy_vertex_cover(edges):
+    """ Жадный 2-аппроксимационный алгоритм для задачи о вершинном покрытии
+    Args:
+        edges: список кортежей (u, v) представляющих ребра графа
+    Returns:
+        множество вершин, образующих покрытие
+    """
     cover = set()
-    remaining_edges = edges.copy()
-    
-    while remaining_edges: 
-        u, v = remaining_edges[0] 
+    remaining_edges = set(edges)
+
+    while remaining_edges:
+        # Выбрать произвольное ребро
+        u, v = remaining_edges.pop()
+        # Добавить обе вершины в покрытие
         cover.add(u)
-        cover.add(v) 
-        remaining_edges = [
-            (a, b) for a, b in remaining_edges
-            if a not in cover and b not in cover
-        ]
-    
+        cover.add(v)
+        # Удалить все ребра, инцидентные u или v
+        # В Python это делается через создание нового множества
+        remaining_edges = {(a, b) for a, b in remaining_edges if a != u and a != v and b != u and b != v}
+
     return cover
 
-" Входные данные
-edges = [
-    (0, 1), (1, 2), (2, 3), (3, 4), (4, 5),
-    (5, 6), (6, 7), (7, 8), (8, 9), (9, 0)
-]
+def main():
+    print("Введите количество вершин (n) и количество ребер (m):")
+    try:
+        n_vertices, n_edges = map(int, input().split())
+    except ValueError:
+        print("Некорректный ввод для количества вершин и ребер.")
+        return
 
-" Запуск алгоритма
-cover = greedy_vertex_cover(edges)
+    print(f"Введите {n_edges} ребер в формате 'u v' (номера вершин от 0 до {n_vertices - 1}):")
+    edges = []
+    for i in range(n_edges):
+        try:
+            u, v = map(int, input().split())
+            # Проверка на корректность номеров вершин
+            if 0 <= u < n_vertices and 0 <= v < n_vertices:
+                edges.append((u, v))
+            else:
+                print(f"Номер вершины в ребре {i+1} выходит за пределы [0, {n_vertices - 1}]. Пропущено.")
+        except ValueError:
+            print(f"Некорректный ввод для ребра {i+1}. Пропущено.")
 
-# Вывод результата
-print(f"Размер покрытия: {len(cover)}")
-print(f"Покрытие: {sorted(cover)}")
+    cover = greedy_vertex_cover(edges)
 
-# Оценка коэффициента аппроксимации
-optimal_size = 5  # Для цикла из 10 вершин оптимум = n/2
-approx_ratio = len(cover) / optimal_size
-print(f"Коэффициент аппроксимации: {approx_ratio:.2f}")
+    print(f"Размер приближенного вершинного покрытия: {len(cover)}")
+    print(f"Вершины покрытия: {sorted(list(cover))}")
+
+if __name__ == "__main__":
+    main()
