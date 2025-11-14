@@ -6,27 +6,21 @@ public class VertexCoverApproximation {
         Set<Integer> cover = new HashSet<>();
         Set<List<Integer>> remainingEdges = new HashSet<>();
 
-        // Инициализировать множество ребер, нормализуя порядок вершин (меньшая первая)
         for (int[] edge : edges) {
             int u = Math.min(edge[0], edge[1]);
             int v = Math.max(edge[0], edge[1]);
-            // Используем List как "кортеж", так как Java не имеет встроенного кортежа
             remainingEdges.add(Arrays.asList(u, v));
         }
 
         while (!remainingEdges.isEmpty()) {
-            // Выбрать произвольное ребро (берем первый элемент из Set)
             List<Integer> edge = remainingEdges.iterator().next();
             int u = edge.get(0);
             int v = edge.get(1);
-            remainingEdges.remove(edge); // Удаляем выбранное ребро
+            remainingEdges.remove(edge); 
 
-            // Добавить обе вершины в покрытие
             cover.add(u);
             cover.add(v);
 
-            // Удалить инцидентные ребра
-            // Используем removeIf для фильтрации
             remainingEdges.removeIf(e -> e.get(0) == u || e.get(0) == v || e.get(1) == u || e.get(1) == v);
         }
         return cover;
@@ -65,7 +59,7 @@ public class VertexCoverApproximation {
                 }
             } catch (InputMismatchException e) {
                 System.err.println("Некорректный ввод для ребра " + (i + 1) + ". Пропущено.");
-                sc.nextLine(); // Потребляем некорректную строку
+                sc.nextLine(); 
             }
         }
 
@@ -73,7 +67,6 @@ public class VertexCoverApproximation {
 
         System.out.println("Размер приближенного вершинного покрытия: " + cover.size());
         System.out.print("Вершины покрытия: ");
-        // Сортируем для вывода в порядке возрастания
         List<Integer> sortedCover = new ArrayList<>(cover);
         Collections.sort(sortedCover);
         for (int v : sortedCover) {
