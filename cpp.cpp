@@ -2,8 +2,8 @@
 #include<set>
 #include<vector>
 #include<algorithm>
-#include<utility> // for std::pair
-#include<limits> // for std::numeric_limits
+#include<utility> 
+#include<limits> 
 
 using namespace std;
 
@@ -11,7 +11,7 @@ set<int> greedyVertexCover(vector<pair<int, int>>& edges, int n_vertices){
     set<int> cover;
     set<pair<int, int>> remainingEdges;
 
-    // Инициализировать множество ребер, убедиться, что u <= v для упрощения
+
     for(auto& edge: edges){
         int u = min(edge.first, edge.second);
         int v = max(edge.first, edge.second);
@@ -19,18 +19,15 @@ set<int> greedyVertexCover(vector<pair<int, int>>& edges, int n_vertices){
     }
 
     while(!remainingEdges.empty()){
-        // Выбрать первое ребро из множества
         auto it = remainingEdges.begin();
         int u = it->first;
         int v = it->second;
-        remainingEdges.erase(it); // Удаляем выбранное ребро
+        remainingEdges.erase(it); 
 
-        // Добавить обе вершины в покрытие
+     
         cover.insert(u);
         cover.insert(v);
 
-        // Удалить инцидентные ребра
-        // Создаем вектор ребер для удаления, чтобы не модифицировать set во время итерации
         vector<pair<int, int>> to_remove;
         for(const auto& e : remainingEdges){
             if(e.first == u || e.first == v || e.second == u || e.second == v){
@@ -63,7 +60,6 @@ int main(){
         int u, v;
         if(!(cin >> u >> v)){
              cerr << "Некорректный ввод для ребра " << i+1 << "." << endl;
-             // Пропустим оставшийся ввод или очистим буфер
              cin.clear();
              cin.ignore(numeric_limits<streamsize>::max(), '\n');
              continue;
