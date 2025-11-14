@@ -1,0 +1,35 @@
+def greedy_vertex_cover(edges):
+    cover = set()
+    remaining_edges = edges.copy()
+    
+    while remaining_edges:
+        # Берём первое непокрытое ребро
+        u, v = remaining_edges[0]
+        # Добавляем обе вершины в покрытие
+        cover.add(u)
+        cover.add(v)
+        # Удаляем все рёбра, инцидентные u или v
+        remaining_edges = [
+            (a, b) for a, b in remaining_edges
+            if a not in cover and b not in cover
+        ]
+    
+    return cover
+
+" Входные данные
+edges = [
+    (0, 1), (1, 2), (2, 3), (3, 4), (4, 5),
+    (5, 6), (6, 7), (7, 8), (8, 9), (9, 0)
+]
+
+" Запуск алгоритма
+cover = greedy_vertex_cover(edges)
+
+# Вывод результата
+print(f"Размер покрытия: {len(cover)}")
+print(f"Покрытие: {sorted(cover)}")
+
+# Оценка коэффициента аппроксимации
+optimal_size = 5  # Для цикла из 10 вершин оптимум = n/2
+approx_ratio = len(cover) / optimal_size
+print(f"Коэффициент аппроксимации: {approx_ratio:.2f}")
