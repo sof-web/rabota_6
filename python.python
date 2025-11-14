@@ -1,21 +1,12 @@
 def greedy_vertex_cover(edges):
-    """ Жадный 2-аппроксимационный алгоритм для задачи о вершинном покрытии
-    Args:
-        edges: список кортежей (u, v) представляющих ребра графа
-    Returns:
-        множество вершин, образующих покрытие
-    """
+
     cover = set()
     remaining_edges = set(edges)
 
     while remaining_edges:
-        # Выбрать произвольное ребро
         u, v = remaining_edges.pop()
-        # Добавить обе вершины в покрытие
         cover.add(u)
         cover.add(v)
-        # Удалить все ребра, инцидентные u или v
-        # В Python это делается через создание нового множества
         remaining_edges = {(a, b) for a, b in remaining_edges if a != u and a != v and b != u and b != v}
 
     return cover
@@ -33,7 +24,6 @@ def main():
     for i in range(n_edges):
         try:
             u, v = map(int, input().split())
-            # Проверка на корректность номеров вершин
             if 0 <= u < n_vertices and 0 <= v < n_vertices:
                 edges.append((u, v))
             else:
